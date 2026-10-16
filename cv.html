@@ -1,0 +1,332 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#173c35">
+  <meta name="description" content="Mẫu CV cá nhân bằng tiếng Việt, có thể chỉnh sửa và in thành PDF.">
+  <title>CV | Lâm Ngọc Ánh</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #18312d;
+      --muted: #64736e;
+      --paper: #fffefa;
+      --canvas: #e9eeea;
+      --green: #173c35;
+      --lime: #c9e27b;
+      --line: #dce3dc;
+      --accent: #c66b4e;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      padding: 36px 18px;
+      background: var(--canvas);
+      color: var(--ink);
+      font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+      font-size: 14px;
+      line-height: 1.55;
+    }
+
+    .toolbar {
+      width: min(210mm, 100%);
+      margin: 0 auto 14px;
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .print-button {
+      border: 0;
+      border-radius: 4px;
+      padding: 10px 15px;
+      background: var(--green);
+      color: white;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .print-button:hover { background: #24594e; }
+    .print-button:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+
+    .resume {
+      width: min(210mm, 100%);
+      min-height: 297mm;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 69mm minmax(0, 1fr);
+      background: var(--paper);
+      box-shadow: 0 16px 48px rgb(24 49 45 / 13%);
+    }
+
+    .sidebar {
+      padding: 37px 25px;
+      background: var(--green);
+      color: #f4f6ec;
+    }
+
+    .identity {
+      display: grid;
+      place-items: center;
+      width: 112px;
+      aspect-ratio: 1;
+      margin: 0 auto 24px;
+      border: 1px solid rgb(255 255 255 / 35%);
+      border-radius: 50%;
+      background: rgb(255 255 255 / 8%);
+      color: var(--lime);
+      font-family: Georgia, serif;
+      font-size: 30px;
+      letter-spacing: 0;
+    }
+
+    .side-section { margin-top: 28px; }
+    .side-heading, .section-heading {
+      margin: 0 0 13px;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 1.3px;
+      text-transform: uppercase;
+    }
+
+    .side-heading {
+      padding-bottom: 8px;
+      border-bottom: 1px solid rgb(255 255 255 / 24%);
+      color: var(--lime);
+    }
+
+    .contact-list, .plain-list {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .contact-list li, .plain-list li { margin: 0 0 9px; overflow-wrap: anywhere; }
+    .contact-label { display: block; color: #b8c9c0; font-size: 11px; }
+    .contact-list a { color: inherit; text-decoration-color: rgb(255 255 255 / 45%); text-underline-offset: 3px; }
+    .side-copy { margin: 0; color: #e1e9df; }
+    .skill { margin: 0 0 12px; }
+    .skill-name { display: flex; justify-content: space-between; gap: 8px; margin-bottom: 5px; }
+    .skill-level { color: #c6d7cd; font-size: 11px; }
+    .skill-track { height: 4px; border-radius: 2px; background: rgb(255 255 255 / 20%); }
+    .skill-fill { height: 100%; border-radius: inherit; background: var(--lime); }
+
+    .main-content { padding: 44px 39px 38px; }
+    .eyebrow {
+      margin: 0 0 8px;
+      color: var(--accent);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 1.7px;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0;
+      color: var(--green);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 39px;
+      font-weight: 500;
+      letter-spacing: 0;
+      line-height: 1.06;
+      overflow-wrap: anywhere;
+    }
+
+    .role {
+      margin: 10px 0 0;
+      color: var(--muted);
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    .intro {
+      margin: 24px 0 31px;
+      padding: 16px 0 16px 17px;
+      border-left: 3px solid var(--lime);
+      color: #43544e;
+    }
+
+    .content-section { margin-top: 27px; }
+    .section-heading {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--green);
+    }
+
+    .section-heading::after { height: 1px; flex: 1; background: var(--line); content: ""; }
+    .entry { position: relative; margin: 0 0 20px; padding-left: 15px; border-left: 1px solid var(--line); }
+    .entry::before {
+      position: absolute;
+      top: 5px;
+      left: -4px;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--accent);
+      content: "";
+    }
+
+    .entry:last-child { margin-bottom: 0; }
+    .entry-top { display: flex; justify-content: space-between; gap: 12px; align-items: baseline; }
+    .entry h3 { margin: 0; font-size: 14px; line-height: 1.4; }
+    .date { flex: 0 0 auto; color: var(--muted); font-size: 11px; font-weight: 700; }
+    .organization { margin: 2px 0 6px; color: var(--accent); font-size: 12px; font-weight: 700; }
+    .entry p, .entry ul { margin: 0; color: #52615c; }
+    .entry ul { padding-left: 17px; }
+    .entry li { margin: 3px 0; }
+    .ref-note { margin: 0; color: var(--muted); font-size: 12px; }
+
+    @media (max-width: 700px) {
+      body { padding: 12px; }
+      .resume { min-height: 0; grid-template-columns: 1fr; }
+      .sidebar { padding: 27px 25px; }
+      .main-content { padding: 30px 25px; }
+      .sidebar-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 24px; }
+      .side-section { margin-top: 21px; }
+      .identity { width: 88px; margin-bottom: 17px; }
+      h1 { font-size: 34px; }
+    }
+
+    @media (max-width: 430px) {
+      .sidebar-grid { grid-template-columns: 1fr; }
+      .entry-top { display: block; }
+      .date { display: block; margin-top: 3px; }
+    }
+
+    @page { size: A4; margin: 0; }
+
+    @media print {
+      body { padding: 0; background: white; font-size: 12px; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+      .toolbar { display: none; }
+      .resume { width: 210mm; min-height: 297mm; box-shadow: none; }
+      .sidebar { padding: 34px 22px; }
+      .main-content { padding: 39px 34px 32px; }
+      .content-section, .entry, .side-section { break-inside: avoid; }
+      a { color: inherit; text-decoration: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="toolbar">
+    <button class="print-button" type="button" onclick="window.print()" aria-label="In CV hoặc lưu thành PDF">In CV / Lưu PDF</button>
+  </div>
+
+  <article class="resume" aria-label="Sơ yếu lý lịch">
+    <aside class="sidebar">
+      <div class="identity" aria-hidden="true">LA</div>
+      <div class="sidebar-grid">
+        <section class="side-section" aria-labelledby="contact-heading">
+          <h2 class="side-heading" id="contact-heading">Liên hệ</h2>
+          <ul class="contact-list">
+            <li><span class="contact-label">Điện thoại</span>[Số điện thoại]</li>
+            <li><span class="contact-label">Email</span><a href="mailto:email@example.com">[Email chuyên nghiệp]</a></li>
+            <li><span class="contact-label">Địa chỉ</span>[Quận/Huyện, Tỉnh/Thành phố]</li>
+            <li><span class="contact-label">LinkedIn / Portfolio</span><a href="https://example.com">[Đường dẫn hồ sơ]</a></li>
+          </ul>
+        </section>
+
+        <section class="side-section" aria-labelledby="skills-heading">
+          <h2 class="side-heading" id="skills-heading">Kỹ năng</h2>
+          <div class="skill">
+            <div class="skill-name"><span>[Kỹ năng chuyên môn 1]</span><span class="skill-level">[Tốt]</span></div>
+            <div class="skill-track"><div class="skill-fill" style="width: 82%"></div></div>
+          </div>
+          <div class="skill">
+            <div class="skill-name"><span>[Kỹ năng chuyên môn 2]</span><span class="skill-level">[Khá]</span></div>
+            <div class="skill-track"><div class="skill-fill" style="width: 68%"></div></div>
+          </div>
+          <div class="skill">
+            <div class="skill-name"><span>[Công cụ / phần mềm]</span><span class="skill-level">[Tốt]</span></div>
+            <div class="skill-track"><div class="skill-fill" style="width: 76%"></div></div>
+          </div>
+          <p class="side-copy" style="margin-top: 12px">[Bổ sung kỹ năng liên quan trực tiếp đến vị trí ứng tuyển.]</p>
+        </section>
+
+        <section class="side-section" aria-labelledby="language-heading">
+          <h2 class="side-heading" id="language-heading">Ngoại ngữ</h2>
+          <ul class="plain-list">
+            <li>[Tiếng Anh] <span class="skill-level">[Giao tiếp tốt / IELTS ...]</span></li>
+            <li>[Ngoại ngữ khác] <span class="skill-level">[Trình độ]</span></li>
+          </ul>
+        </section>
+
+        <section class="side-section" aria-labelledby="additional-heading">
+          <h2 class="side-heading" id="additional-heading">Thông tin thêm</h2>
+          <ul class="plain-list">
+            <li><span class="contact-label">Ngày sinh</span>[Ngày/Tháng/Năm]</li>
+            <li><span class="contact-label">Vị trí mong muốn</span>[Tên vị trí]</li>
+            <li><span class="contact-label">Thời gian nhận việc</span>[Ngay / Sau ... tuần]</li>
+          </ul>
+        </section>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header>
+        <p class="eyebrow">Hồ sơ năng lực</p>
+        <h1>Lâm Ngọc Ánh</h1>
+        <p class="role">Sinh viên năm 4 · Ngành Công nghệ thông tin</p>
+      </header>
+
+      <p class="intro">Sinh viên năm 4 ngành Công nghệ thông tin. Quan tâm đến [lĩnh vực/vị trí ứng tuyển], có kiến thức về [công nghệ hoặc chuyên môn nổi bật] và kinh nghiệm thực hành qua [dự án/hoạt động tiêu biểu]. Mong muốn phát triển chuyên môn và đóng góp vào các sản phẩm công nghệ thực tế.</p>
+
+      <section class="content-section" aria-labelledby="experience-heading">
+        <h2 class="section-heading" id="experience-heading">Kinh nghiệm làm việc</h2>
+        <article class="entry">
+          <div class="entry-top"><h3>[Chức danh công việc gần nhất]</h3><span class="date">[MM/YYYY - Hiện tại]</span></div>
+          <p class="organization">[Tên công ty] · [Tỉnh/Thành phố]</p>
+          <ul>
+            <li>[Mô tả trách nhiệm chính bằng động từ hành động và phạm vi công việc.]</li>
+            <li>[Nêu thành tựu nổi bật có số liệu, ví dụ: tăng ...%, tiết kiệm ..., phục vụ ... khách hàng.]</li>
+            <li>[Công cụ, quy trình hoặc kỹ năng đã sử dụng để tạo ra kết quả.]</li>
+          </ul>
+        </article>
+        <article class="entry">
+          <div class="entry-top"><h3>[Chức danh công việc trước đó]</h3><span class="date">[MM/YYYY - MM/YYYY]</span></div>
+          <p class="organization">[Tên công ty] · [Tỉnh/Thành phố]</p>
+          <ul>
+            <li>[Trách nhiệm hoặc dự án tiêu biểu liên quan đến vị trí đang ứng tuyển.]</li>
+            <li>[Kết quả cụ thể và đóng góp của bạn cho nhóm hoặc doanh nghiệp.]</li>
+          </ul>
+        </article>
+      </section>
+
+      <section class="content-section" aria-labelledby="education-heading">
+        <h2 class="section-heading" id="education-heading">Học vấn</h2>
+        <article class="entry">
+          <div class="entry-top"><h3>Sinh viên năm 4 ngành Công nghệ thông tin</h3><span class="date">[YYYY - Dự kiến YYYY]</span></div>
+          <p class="organization">[Tên trường] · [Tỉnh/Thành phố]</p>
+          <p>[Xếp loại/GPA nếu là điểm mạnh] · [Môn học, đồ án hoặc thành tích liên quan]</p>
+        </article>
+      </section>
+
+      <section class="content-section" aria-labelledby="projects-heading">
+        <h2 class="section-heading" id="projects-heading">Dự án tiêu biểu</h2>
+        <article class="entry">
+          <div class="entry-top"><h3>[Tên dự án]</h3><span class="date">[MM/YYYY - MM/YYYY]</span></div>
+          <p class="organization">[Vai trò của bạn] · [Công nghệ / lĩnh vực]</p>
+          <p>[Mục tiêu, phần việc bạn phụ trách và kết quả đạt được. Thêm liên kết nếu có sản phẩm hoặc hồ sơ công khai.]</p>
+        </article>
+      </section>
+
+      <section class="content-section" aria-labelledby="certificates-heading">
+        <h2 class="section-heading" id="certificates-heading">Chứng chỉ &amp; thành tích</h2>
+        <article class="entry">
+          <div class="entry-top"><h3>[Tên chứng chỉ / giải thưởng]</h3><span class="date">[YYYY]</span></div>
+          <p class="organization">[Đơn vị cấp / tổ chức]</p>
+          <p>[Điểm số, xếp hạng hoặc nội dung liên quan nếu cần.]</p>
+        </article>
+      </section>
+
+      <section class="content-section" aria-labelledby="references-heading">
+        <h2 class="section-heading" id="references-heading">Người tham chiếu</h2>
+        <p class="ref-note">Cung cấp khi được yêu cầu.</p>
+      </section>
+    </main>
+  </article>
+</body>
+</html>
