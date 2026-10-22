@@ -35,10 +35,13 @@
       width: min(210mm, 100%);
       margin: 0 auto 14px;
       display: flex;
+      gap: 8px;
       justify-content: flex-end;
     }
 
     .print-button {
+      display: inline-flex;
+      align-items: center;
       border: 0;
       border-radius: 4px;
       padding: 10px 15px;
@@ -69,11 +72,13 @@
     }
 
     .identity {
+      position: relative;
       display: grid;
       place-items: center;
       width: 112px;
       aspect-ratio: 4 / 5;
       margin: 0 auto 24px;
+      overflow: hidden;
       border: 1px solid #decfcd;
       border-radius: 2px;
       background: var(--blush);
@@ -82,6 +87,8 @@
       font-weight: 700;
       letter-spacing: 1px;
     }
+
+    .identity img { width: 100%; height: 100%; object-fit: cover; }
 
     .side-section { margin-top: 28px; }
     .side-heading, .section-heading {
@@ -213,7 +220,10 @@
 
   <article class="resume" aria-label="Sơ yếu lý lịch">
     <aside class="sidebar">
-      <div class="identity" role="img" aria-label="Vị trí ảnh chân dung">ẢNH<br>CHÂN DUNG</div>
+      <div class="identity" role="img" aria-label="Ảnh chân dung">
+        <img id="portrait-image" src="portrait.jpg" alt="Ảnh chân dung" hidden>
+        <span id="portrait-placeholder">ẢNH<br>CHÂN DUNG</span>
+      </div>
       <div class="sidebar-grid">
         <section class="side-section" aria-labelledby="contact-heading">
           <h2 class="side-heading" id="contact-heading">Liên hệ</h2>
@@ -297,5 +307,27 @@
       </section>
     </main>
   </article>
+  <script>
+    const portraitImage = document.querySelector("#portrait-image");
+    const portraitPlaceholder = document.querySelector("#portrait-placeholder");
+
+    const showPortrait = () => {
+      portraitImage.hidden = false;
+      portraitPlaceholder.hidden = true;
+    };
+
+    const showPortraitPlaceholder = () => {
+      portraitImage.hidden = true;
+      portraitPlaceholder.hidden = false;
+    };
+
+    portraitImage.addEventListener("load", showPortrait);
+    portraitImage.addEventListener("error", showPortraitPlaceholder);
+
+    if (portraitImage.complete) {
+      if (portraitImage.naturalWidth > 0) showPortrait();
+      else showPortraitPlaceholder();
+    }
+  </script>
 </body>
 </html>
